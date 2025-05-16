@@ -185,6 +185,15 @@ getSteinerTreeBuilder()
   return openroad->getSteinerTreeBuilder();
 }
 
+tool::Tool*
+getCellMoveRouter()
+{
+  OpenRoad *openroad = getOpenRoad();
+  return openroad->getTool();
+
+
+}
+
 } // namespace ord
 
 namespace sta {

@@ -58,6 +58,7 @@
 #include "utl/Progress.h"
 #include "utl/ScopedTemporaryFile.h"
 #include "utl/decode.h"
+#include "tool/MakeTool.h"
 
 namespace ord {
 extern const char* ord_tcl_inits[];
@@ -112,6 +113,7 @@ OpenRoad::~OpenRoad()
   deleteDistributed(distributer_);
   deleteSteinerTreeBuilder(stt_builder_);
   dft::deleteDft(dft_);
+  tool::deleteTool(tool_);
   delete logger_;
   delete verilog_reader_;
 }
@@ -181,6 +183,7 @@ void OpenRoad::init(Tcl_Interp* tcl_interp,
   distributer_ = dst::makeDistributed();
   stt_builder_ = stt::makeSteinerTreeBuilder();
   dft_ = dft::makeDft();
+  tool_ = tool::makeTool();
 
   // Init components.
   Ord_Init(tcl_interp);
@@ -246,6 +249,7 @@ void OpenRoad::init(Tcl_Interp* tcl_interp,
   initPdnGen(pdngen_, db_, logger_, tcl_interp);
   initDistributed(distributer_, logger_, tcl_interp);
   initSteinerTreeBuilder(stt_builder_, db_, logger_, tcl_interp);
+  initTool(tool_, tcl_interp, db_);
   dft::initDft(dft_, db_, sta_, logger_, tcl_interp);
 
   // Import exported commands to global namespace.
