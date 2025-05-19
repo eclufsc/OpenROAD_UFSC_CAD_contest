@@ -30,13 +30,16 @@ class Tool
 public:
   Tool();
   ~Tool() = default;
-  void init(Tcl_Interp *tcl_interp,
-	    odb::dbDatabase *db);
+  void init(
+    odb::dbDatabase *db,
+    utl::Logger *logger);
   void orderFlops();
   void clusterFlops();
 
 private:
   odb::dbDatabase *db_;
+  utl::Logger *log_;
+
   std::vector<FlipFlop> flipflops_;
   std::vector<Cell> cells_;
 };

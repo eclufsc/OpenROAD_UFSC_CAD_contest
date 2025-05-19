@@ -30,25 +30,25 @@ namespace tool {
 extern const char *tool_tcl_inits[];
 
 
-tool::Tool *
-makeTool()
+tool::Tool* makeTool()
 {
   return new tool::Tool;
 }
 
-void
-deleteTool(tool::Tool *tool)
+void deleteTool(tool::Tool *tool)
 {
   delete tool;
 }
 
-void
-initTool(tool::Tool* tool, Tcl_Interp *tcl_interp,
-  odb::dbDatabase *db)
+void initTool(
+  tool::Tool *tool,
+  odb::dbDatabase *db,
+  utl::Logger *logger,
+  Tcl_Interp *tcl_interp)
 {
   Tool_Init(tcl_interp);
   utl::evalTclInit(tcl_interp, tool::tool_tcl_inits);
-  tool->init(tcl_interp, db);
+  tool->init(db, logger);
 }
 
 }

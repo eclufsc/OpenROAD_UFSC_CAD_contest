@@ -28,15 +28,15 @@ class Tool;
 
 class OpenRoad;
 
-tool::Tool *
-makeTool();
+tool::Tool* makeTool();
 
-void
-deleteTool(tool::Tool *tool);
+void deleteTool(tool::Tool *tool);
 
-void
-initTool(tool::Tool* tool, Tcl_Interp *tcl_interp,
-    odb::dbDatabase *db);
+void initTool(
+    tool::Tool* tool,
+    odb::dbDatabase *db,
+    utl::Logger* logger,
+    Tcl_Interp *tcl_interp);
 
 } // namespace
 #endif

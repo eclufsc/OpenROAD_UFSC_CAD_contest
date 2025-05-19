@@ -249,7 +249,7 @@ void OpenRoad::init(Tcl_Interp* tcl_interp,
   initPdnGen(pdngen_, db_, logger_, tcl_interp);
   initDistributed(distributer_, logger_, tcl_interp);
   initSteinerTreeBuilder(stt_builder_, db_, logger_, tcl_interp);
-  initTool(tool_, tcl_interp, db_);
+  initTool(tool_, db_, logger_, tcl_interp);
   dft::initDft(dft_, db_, sta_, logger_, tcl_interp);
 
   // Import exported commands to global namespace.

@@ -43,3 +43,7 @@ target_link_libraries(tool
 messages(
   TARGET tool
 )
+
+if(ENABLE_TESTS)
+  add_subdirectory(test)
+endif()
