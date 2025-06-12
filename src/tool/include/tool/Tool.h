@@ -17,9 +17,14 @@
 #include <tcl.h>
 #include <vector>
 
+#include "ord/OpenRoad.hh"
 #include "odb/db.h"
 #include "tool/Cell.h"
 #include "tool/FlipFlop.h"
+
+namespace sta {
+class dbNetwork;
+}
 
 namespace tool {
 class FlipFlop;
@@ -32,13 +37,20 @@ public:
   ~Tool() = default;
   void init(
     odb::dbDatabase *db,
-    utl::Logger *logger);
+    utl::Logger *logger,
+    sta::dbNetwork* network,
+    ord::OpenRoad* openROAD);
+  void printAllFlops();
   void orderFlops();
   void clusterFlops();
 
+  void run();
+
 private:
-  odb::dbDatabase *db_;
-  utl::Logger *log_;
+  odb::dbDatabase *db_ = nullptr;
+  utl::Logger *log_ = nullptr;
+  sta::dbNetwork* network_ = nullptr;
+  ord::OpenRoad* openROAD_ = nullptr;
 
   std::vector<FlipFlop> flipflops_;
   std::vector<Cell> cells_;

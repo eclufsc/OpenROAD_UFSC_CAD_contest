@@ -29,35 +29,44 @@ class FlipFlop
 {
 public:
   FlipFlop(std::string name,
+           int id,
            int x,
            int y,
            int size,
            float delay,
            float power,
-           std::vector<FlopPinInput> inputs,
-           std::vector<FlopPinOutput> outputs)
+           int area)
     : name_(name),
+      id_(id),
       x_(x),
       y_(y),
       size_(size),
       delay_(delay),
       power_(power),
-      inputs_(inputs),
-      outputs_(outputs)
+      area_(area)
   {}
 
   ~FlipFlop() = default;
-  
+
+  std::string getName();
+  void setLocation(int x, int y);
+  void getLocation(int& x, int& y);
+  void setDelay(float delay);
+  float getDelay();
+  void setPower(float power);
+  float getPower();
 
 private:
   std::string name_;
+  int id_;
   int x_;
   int y_;
   int size_;
   float delay_;
   float power_;
-  std::vector<FlopPinInput> inputs_;
-  std::vector<FlopPinOutput> outputs_;
+  int area_;
+  std::vector<int> inputs;
+  std::vector<int> outputs;
 
 
 };

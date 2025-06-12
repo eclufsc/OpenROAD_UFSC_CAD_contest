@@ -14,6 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+#include "ord/OpenRoad.hh"
 #include "odb/db.h"
 #include "tool/Tool.h"
 #include "tool/MakeTool.h"
@@ -44,11 +45,13 @@ void initTool(
   tool::Tool *tool,
   odb::dbDatabase *db,
   utl::Logger *logger,
-  Tcl_Interp *tcl_interp)
+  sta::dbNetwork* network,
+  Tcl_Interp *tcl_interp,
+  ord::OpenRoad *openROAD)
 {
   Tool_Init(tcl_interp);
   utl::evalTclInit(tcl_interp, tool::tool_tcl_inits);
-  tool->init(db, logger);
+  tool->init(db, logger, network, openROAD);
 }
 
 }

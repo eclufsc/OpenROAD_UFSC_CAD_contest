@@ -23,7 +23,7 @@ public:
   {}
 
   ~Cell() = default;
-  
+
 
 private:
   std::string name_;
@@ -31,7 +31,5 @@ private:
   int y_;
   float delay_;
   float power_;
-
-
 };
 }

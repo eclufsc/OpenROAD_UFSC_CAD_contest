@@ -14,8 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-sta::define_cmd_args "run_tool" {[-key1 key1] [-flag1] pos_arg1}
-
 # Put helper functions in a separate namespace so they are not visible
 # too users in the global namespace.
 namespace eval tool {
@@ -24,5 +22,8 @@ proc tool_helper { } {
   puts "Helping 23/6"
 }
 
+proc run_tool {} {
+  tool::run_tool_cmd
+}
 }
 

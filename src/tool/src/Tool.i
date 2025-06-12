@@ -30,5 +30,10 @@ getTool()
 %}
 
 %inline %{
+  void
+  run_tool_cmd()
+  {
+    getTool()->run();
+  }
 
 %} // inline

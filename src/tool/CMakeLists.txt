@@ -27,6 +27,7 @@ swig_lib(NAME      tool
 target_sources(tool
   PRIVATE
   src/MakeTool.cpp
+  src/FlipFlop.cpp
   src/Tool.cpp
 )
 
@@ -36,6 +37,7 @@ target_include_directories(tool
 )
 
 target_link_libraries(tool
+    dbSta_lib
     OpenSTA
     odb
 )

@@ -36,7 +36,9 @@ void initTool(
     tool::Tool* tool,
     odb::dbDatabase *db,
     utl::Logger* logger,
-    Tcl_Interp *tcl_interp);
+    sta::dbNetwork* network,
+    Tcl_Interp *tcl_interp,
+    ord::OpenRoad *openROAD);
 
 } // namespace
 #endif
