@@ -110,6 +110,12 @@ namespace dft {
 class Dft;
 }
 
+// TechFile Parser forward declarations
+namespace tfp {
+class TechFileParser;
+struct TechFileData;
+}
+
 namespace ord {
 
 using std::string;
@@ -158,6 +164,9 @@ class OpenRoad
   stt::SteinerTreeBuilder* getSteinerTreeBuilder() { return stt_builder_; }
   dft::Dft* getDft() { return dft_; }
 
+  // TechFile Parser getter
+  tfp::TechFileParser* getTechFileParser() { return tech_file_parser_; }
+
   // Return the bounding box of the db rows.
   odb::Rect getCore();
   // Return true if the command units have been initialized.
@@ -175,6 +184,10 @@ class OpenRoad
                bool floorplan_init,
                bool incremental,
                bool child);
+
+  // TechFile Parser methods
+  void readTechFile(const char* filename);
+  tfp::TechFileData parseTechFile(const char* filename);
 
   void writeLef(const char* filename);
 
@@ -249,6 +262,9 @@ class OpenRoad
   dst::Distributed* distributer_ = nullptr;
   stt::SteinerTreeBuilder* stt_builder_ = nullptr;
   dft::Dft* dft_ = nullptr;
+
+  // TechFile Parser
+  tfp::TechFileParser* tech_file_parser_ = nullptr;
 
   int threads_ = 1;
 

@@ -59,6 +59,9 @@
 #include "utl/ScopedTemporaryFile.h"
 #include "utl/decode.h"
 
+// TechFile Parser integration
+#include "tfp/tfp.h"
+
 namespace ord {
 extern const char* ord_tcl_inits[];
 }  // namespace ord
@@ -66,6 +69,7 @@ extern const char* ord_tcl_inits[];
 // Swig uses C linkage for init functions.
 extern "C" {
 extern int Ord_Init(Tcl_Interp* interp);
+extern int Tfp_Init(Tcl_Interp* interp);  // TechFile Parser init
 }
 
 namespace ord {
@@ -83,6 +87,7 @@ OpenRoad* OpenRoad::app_ = nullptr;
 OpenRoad::OpenRoad()
 {
   db_ = dbDatabase::create();
+  tech_file_parser_ = nullptr;  // Initialize TFP
 }
 
 OpenRoad::~OpenRoad()
@@ -112,6 +117,10 @@ OpenRoad::~OpenRoad()
   deleteDistributed(distributer_);
   deleteSteinerTreeBuilder(stt_builder_);
   dft::deleteDft(dft_);
+  
+  // Cleanup TechFile Parser
+  delete tech_file_parser_;
+  
   delete logger_;
   delete verilog_reader_;
 }
@@ -181,9 +190,16 @@ void OpenRoad::init(Tcl_Interp* tcl_interp,
   distributer_ = dst::makeDistributed();
   stt_builder_ = stt::makeSteinerTreeBuilder();
   dft_ = dft::makeDft();
+  
+  // Create TechFile Parser
+  tech_file_parser_ = new tfp::TechFileParser(logger_);
 
   // Init components.
   Ord_Init(tcl_interp);
+  
+  // Initialize TechFile Parser commands
+  Tfp_Init(tcl_interp);
+  
   // Import TCL scripts.
   utl::evalTclInit(tcl_interp, ord::ord_tcl_inits);
 
@@ -258,6 +274,28 @@ void OpenRoad::init(Tcl_Interp* tcl_interp,
     // distributions, which is generating this error.
     // remove error from tcl result.
     Tcl_ResetResult(tcl_interp);
+  }
+}
+
+////////////////////////////////////////////////////////////////
+
+// TechFile Parser methods
+void OpenRoad::readTechFile(const char* filename)
+{
+  if (tech_file_parser_) {
+    tech_file_parser_->readTechFile(db_, filename);
+  } else {
+    logger_->error(ORD, 69, "TechFile parser not initialized");
+  }
+}
+
+tfp::TechFileData OpenRoad::parseTechFile(const char* filename)
+{
+  if (tech_file_parser_) {
+    return tech_file_parser_->parseTechFile(filename);
+  } else {
+    logger_->error(ORD, 70, "TechFile parser not initialized");
+    return tfp::TechFileData{};
   }
 }
 
